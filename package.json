@@ -1,0 +1,45 @@
+{
+  "name": "ak-webpack-plugin",
+  "version": "0.1.0",
+  "description": "alloyteam zip plugin for ak offline platform",
+  "keywords": [
+    "front-end",
+    "web",
+    "webpack",
+    "plugin",
+    "building tool"
+  ],
+  "homepage": "https://github.com/SteamerTeam/ak-webpack-plugin",
+  "bugs": {
+    "url": "https://github.com/SteamerTeam/ak-webpack-pluginissues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:SteamerTeam/ak-webpack-plugin.git"
+  },
+  "author": "heyli",
+  "files": [
+    "bin",
+    "libs",
+    "index.js"
+  ],
+  "scripts": {
+    "pretest": "node ./specWebpack/runWebpack.js",
+    "test": "jasmine"
+  },
+  "dependencies": {
+    "bluebird": "^3.4.7",
+    "colors": "^1.1.2",
+    "fs-extra": "^2.0.0",
+    "lodash": "^3.10.1"
+  },
+  "devDependencies": {
+    "jasmine": "^2.4.1",
+    "webpack": "^1.14.0"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=4.0.0",
+    "npm": ">=3.0.0"
+  }
+}
