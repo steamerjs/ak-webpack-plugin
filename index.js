@@ -100,7 +100,7 @@ AkWebpackPlugin.prototype.replaceUrl = function() {
 
 		function walkAndReplace(config, folder, extname) {
 			let srcPath = path.join(config.zipFileName, folder);
-			srcPath = srcPath.replace(":", "/").replace("//", "/");
+			srcPath = path.resolve(srcPath.replace(":", "/"));
 
 			let files = klawSync(srcPath);
 
@@ -114,7 +114,7 @@ AkWebpackPlugin.prototype.replaceUrl = function() {
 				fs.writeFileSync(item.path, content, "utf-8");
 			});
 		}
-
+		
 		walkAndReplace(this.config, cdnUrl.replaceAll("//", ""), "js");
 		walkAndReplace(this.config, webserverUrl.replaceAll("//", ""), "html");
 	}
