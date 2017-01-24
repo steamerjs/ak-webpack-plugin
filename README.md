@@ -93,5 +93,11 @@ plugins: [
 	- Boolean, default `false`
 	- If set true, all other url would be the same with "webserver"
 
+
+## Test
+```
+npm run test
+```
+
 ## Changelog
 * v1.0.0 zip and replace url to ensure same origin
