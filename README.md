@@ -35,6 +35,22 @@ plugins: [
 	})
 ]
 
+```
+
+If you use this config, it would generate `offline` folder and `offline.zip`:
+
+``` javascript
+-- build
+	|
+	|- webserver
+	|- cdn
+	|- offline
+	|- offline.zip
+```
+
+``` javascript
+
+// config for multiple cdn files
 plugins: [
 	new AkWebpackPlugin({
 	    "zipFileName": "offline",
@@ -63,17 +79,7 @@ plugins: [
         }
 	})
 ]
-```
 
-If you use this config, it would generate `offline` folder and `offline.zip`:
-
-```
--- build
-	|
-	|- webserver
-	|- cdn
-	|- offline
-	|- offline.zip
 ```
 
 ## Options
