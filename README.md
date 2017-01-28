@@ -1,9 +1,9 @@
 # ak-webpack-plugin
 
-Create zip package for ak platform
+AlloyKit平台生成离线包命令
 
 
-## Installation
+## 安装
 
 ```
 npm i --save ak-webpack-plugin
@@ -11,16 +11,16 @@ npm i --save ak-webpack-plugin
 npm i --save-dev ak-webpack-plugin
 ```
 
-## Usage
+##  使用
 
 ``` javascript
 var AkWebpackPlugin = require('ak-webpack-plugin');
 
-// common config, webserver for html files and cdn for cnd files
+// 通用配置，webserver 针对 html 文件，而 cdn 是针对 cdn 文件
 plugins: [
 	new AkWebpackPlugin({
-	    "zipFileName": "build/offline",
-	    "src": "build",
+	    "zipFileName": "dist/offline",
+	    "src": "dist",
 	    "isSameOrigin": true,
 	    "map": [
 	        {
@@ -37,10 +37,10 @@ plugins: [
 
 ```
 
-If you use this config, it would generate `offline` folder and `offline.zip`:
+如果你使用上述的配置，它会在 `dist` 目录下，生成 `offline` 文件夹和 `offline.zip` 文件：
 
 ``` javascript
--- build
+-- dist
 	|
 	|- webserver
 	|- cdn
@@ -50,11 +50,11 @@ If you use this config, it would generate `offline` folder and `offline.zip`:
 
 ``` javascript
 
-// config for multiple cdn files
+// 多个cdn文件配置
 plugins: [
 	new AkWebpackPlugin({
 	    "zipFileName": "offline",
-        "src": "build",
+        "src": "dist",
         "isSameOrigin": "false",
         "map": [
         {
@@ -82,22 +82,23 @@ plugins: [
 
 ```
 
-## Options
+## 配置
 * `zipFileName`
-	- String, target offline file
+	- String, 最终生成的离线包名称，默认值是 `offline`，**当前文件夹位置以命令执行位置为基准**
 * `src`
-	- String, source folder
+	- String, 生成环境的代码源，默认值 `dist`
 * `map` 
 	- Array, detail source folder and url
 * `isSameOrigin`
-	- Boolean, default `false`
-	- If set true, all other url would be the same with "webserver"
+	- Boolean, 默认值 `false`
+	- 如果设置为 `true` 会将 `cdn` 的 `url`，全部替换成 `webserver` 的 `url`
 
 
-## Test
+## 测试
 ```
 npm run test
 ```
 
-## Changelog
-* v1.0.0 zip and replace url to ensure same origin
+## 变更
+* v1.0.0 离线包打包及 `webserver` 替换 `cdn` 的 `url`
+* v1.0.1 更换成中文文档
