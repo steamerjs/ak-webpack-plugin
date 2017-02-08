@@ -44,19 +44,27 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(2);
+	module.exports = __webpack_require__(1);
 
 
 /***/ },
-/* 1 */,
-/* 2 */
-/***/ function(module, exports) {
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var react = {
-		reactDom: function reactDom() {}
-	};
+	__webpack_require__(3);
+
+	var a = "hello world!";
+
+	var b = "//localhost:9000/js/a.js";
+
+/***/ },
+/* 2 */,
+/* 3 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
 
 /***/ }
 /******/ ]);

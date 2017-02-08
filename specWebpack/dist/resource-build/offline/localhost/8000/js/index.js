@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "//localhost:9000/";
+/******/ 	__webpack_require__.p = "//localhost:8000/";
 
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);

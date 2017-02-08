@@ -11,6 +11,7 @@ var basePath = path.resolve('./specWebpack/src/');
 
 var webpackConfig = [
 	require(basePath + '/resource-build/webpack.config.js'),
+	require(basePath + '/resource-sameorigin/webpack.config.js'),
 ];
 
 fs.removeSync(path.resolve('./specWebpack/dist/'));

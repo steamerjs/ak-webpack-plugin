@@ -8,11 +8,29 @@ const fs = require('fs-extra'),
 	  klawSync = require('klaw-sync'),
 	  path = require('path'),
 	  archiver = require('archiver'),
-	  colors = require('colors');
+	  colors = require('colors'),
+	  _ = require('lodash');
 
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'gi'), replacement);
+};
+
+String.prototype.replaceJsAll = function(search, replacement) {
+    var target = this,
+    	cdnUrl = search.replace("//", ""),
+    	webserverUrl = replacement.replace("//", "");
+
+    search = search.replace("//", "");
+    if (search[search.length - 1] === "/") {
+    	search = search.substr(0, search.length - 1);
+    	search += "\\\/";
+    }
+
+    return target.replace(new RegExp("(.\\\s*)" + search + "(.*)(.js)", 'gi'), function(match) {
+    	match = match.replace(cdnUrl, webserverUrl);
+    	return match;
+    });
 };
 
 function AkWebpackPlugin(opts) {
@@ -26,13 +44,12 @@ function AkWebpackPlugin(opts) {
 AkWebpackPlugin.prototype.apply = function(compiler) {
 	compiler.plugin("after-emit", (compilation, callback) => {
 
-		this.warn("=====ak-webapck-plugin=====")
+		this.warn("=====ak-webapck-plugin=====");
 
+		this.addDestUrl();
 		this.copyFiles();
-
-		if (this.config.isSameOrigin) {
-			this.replaceUrl();
-		}
+			
+		this.replaceUrl();
 
 		this.zipFiles();
 
@@ -52,11 +69,39 @@ AkWebpackPlugin.prototype.alert = function(msg) {
 	console.log(msg.red);
 };
 
+/**
+ * [add destUrl property to config map data]
+ */
+AkWebpackPlugin.prototype.addDestUrl = function() {
+
+	let hasWebserver = false,
+		webServerConfig = {};
+
+	this.config.map.map((item, key) => {
+
+		if (item.isWebserver) {
+			hasWebserver = true;
+			webServerConfig = item;
+		}
+
+	});
+
+	this.config.map.map((item, key) => {
+
+		item.destUrl = item.url;
+
+		if (hasWebserver && item.isSameOrigin) {
+			item.destUrl = webServerConfig.url || "";
+		}
+	});
+
+};
 
 /**
  * [copy files to offline folder]
  */
 AkWebpackPlugin.prototype.copyFiles = function() {
+
 	let cwd = process.cwd();
 
 	fs.removeSync(path.join(cwd, this.config.zipFileName));
@@ -65,9 +110,10 @@ AkWebpackPlugin.prototype.copyFiles = function() {
 	this.config.map.forEach((item, key) => {
 		let srcPath = path.join(this.config.src, item.src);
 
-		let url = item.url.replace("http://", "").replace("https://", "").replace("//", "").replace(":", "/");
+		let url = item.destUrl.replace("http://", "").replace("https://", "").replace("//", "").replace(":", "/"),
+			dest = item.dest || "";
 
-		let destPath = path.join(cwd, this.config.zipFileName, url);
+		let destPath = path.join(cwd, this.config.zipFileName, url, dest);
 
 		fs.copySync(srcPath, destPath);
 
@@ -81,17 +127,21 @@ AkWebpackPlugin.prototype.copyFiles = function() {
 AkWebpackPlugin.prototype.replaceUrl = function() {
 	let hasWebserver = false,
 		hasCdn = false,
+		webserverDestUrl = null,
 		webserverUrl = null,
+		cdnDestUrl = null,
 		cdnUrl = null;
 
 	this.config.map.forEach((item, key) => {
-		if (item.src === "webserver") {
+		if (item.isWebserver) {
 			hasWebserver = true;
+			webserverDestUrl = item.destUrl;
 			webserverUrl = item.url;
 		}
 
-		if (item.src === "cdn") {
+		if (item.isSameOrigin) {
 			hasCdn = true;
+			cdnDestUrl = item.destUrl;
 			cdnUrl = item.url;
 		}
 	});
@@ -110,13 +160,13 @@ AkWebpackPlugin.prototype.replaceUrl = function() {
 
 			files.map((item, key) => {
 				let content = fs.readFileSync(item.path, "utf-8");
-				content = content.replaceAll(cdnUrl, webserverUrl);
+				content = content.replaceJsAll(cdnUrl, webserverUrl);
 				fs.writeFileSync(item.path, content, "utf-8");
 			});
 		}
 		
-		walkAndReplace(this.config, cdnUrl.replaceAll("//", ""), "js");
-		walkAndReplace(this.config, webserverUrl.replaceAll("//", ""), "html");
+		walkAndReplace(this.config, cdnDestUrl.replaceAll("//", ""), "js");
+		walkAndReplace(this.config, webserverDestUrl.replaceAll("//", ""), "html");
 	}
 };
 

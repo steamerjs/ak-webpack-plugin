@@ -10,12 +10,12 @@ var HtmlResWebpackPlugin = require('html-res-webpack-plugin'),
 
 var webpackConfig = {
 	entry: {
-        'libs/react': [path.join(config.path.src, "/resource-build/libs/react")],
-        'index': [path.join(config.path.src, "/resource-build/index")],
+        'libs/react': [path.join(config.path.src, "/resource-sameorigin/libs/react")],
+        'index': [path.join(config.path.src, "/resource-sameorigin/index")],
     },
     output: {
         publicPath: config.cdn,
-        path: path.join(config.path.dist + '/resource-build/cdn/'),
+        path: path.join(config.path.dist + '/resource-sameorigin/cdn/'),
         filename: "js/[name].js",
         chunkFilename: "chunk/[name].js",
     },
@@ -47,25 +47,33 @@ var webpackConfig = {
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.NoErrorsPlugin(),
         new ExtractTextPlugin("./css/[name].css", {
-            publicPath: "//localhost:1111/",
+            // publicPath: "//localhost:1111/",
         }),
         new HtmlResWebpackPlugin({
             mode: 'html',
         	filename: "../webserver/entry.html",
-	        template: config.path.src + "/resource-build/index.html",
-            cssPublicPath: "//localhost:1111/",
+	        template: config.path.src + "/resource-sameorigin/index.html",
+            // cssPublicPath: "//localhost:1111/",
 	        htmlMinify: null
         }),
         new AkWebpackPlugin({
-            "zipFileName": "specWebpack/dist/resource-build/offline",
-            "src": "specWebpack/dist/resource-build/",
+            "zipFileName": "specWebpack/dist/resource-sameorigin/offline",
+            "src": "specWebpack/dist/resource-sameorigin/",
             "map": [
                 {
                     "src": "webserver",
+                    "isWebserver": true,
                     "url": config.defaultPath,
                 },
                 {
-                    "src": "cdn",
+                    "src": "cdn/js",
+                    "dest": "js",
+                    "isSameOrigin": true,
+                    "url": config.cdn
+                },
+                {
+                    "src": "cdn/css",
+                    "dest": "css",
                     "url": config.cdn
                 }
             ]
@@ -73,7 +81,5 @@ var webpackConfig = {
     ],
     watch: false,
 };
-
-// console.log(webpackConfig);
 
 module.exports = webpackConfig;
