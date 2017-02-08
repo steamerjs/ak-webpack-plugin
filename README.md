@@ -2,6 +2,7 @@
 
 AlloyKit平台生成离线包命令
 
+[![NPM Version](https://img.shields.io/npm/v/ak-webpack-plugin.svg?style=flat)](https://www.npmjs.com/package/ak-webpack-plugin)
 
 ## 安装
 
