@@ -61,7 +61,7 @@ plugins: [
         {
             "src": "cdn/js",
             "dest": "js",
-            // String, 目标文件路径子文件夹
+            // String, 目标文件路径子文件夹，默认为空字符串
             "isSameOrigin": true, 
             // Boolean， 默认 false，如果为 true， 则会将 cdn 的 url替换成与 isWebserver 为 true 的 cdn url
             "url": "s1.url.cn/huayang/"
@@ -79,7 +79,7 @@ plugins: [
         {
             "src": "cdn/lib",
             "dest": "lib",
-            "url": "s3.url.cn/huayang/"
+            "url": "s1.url.cn/huayang/"
         },
         {
             "src": "webserver",
@@ -93,6 +93,31 @@ plugins: [
 ```
 
 之所以要用 `isSameOrigin` 与 `isWebserver`，是有时候需要 `html` 文件和 `js` 文件的域名一致，例如有时候需要收集js的报错，让两者的 `cdn` 一致会更方便收集到具体的报错信息。
+
+如果使用上述配置，生成的 `offline` 目录，将会有以下的排布：
+
+```
+offline
+ |-- huayang.qq.com
+ |    |-- huayang
+ |         |-- activity
+ |              |-- entry.html
+ |              |-- js
+ |                  |-- index.js
+ |-- s1.url.cn
+ |    |-- huayang
+ |         |-- lib
+ |              |-- react.js
+ |
+ |-- s2.url.cn
+ |    |-- huayang
+ |         |-- css
+ |              |-- index.css
+ |-- s3.url.cn
+      |-- huayang
+           |-- img
+                |-- logo.png
+```
 
 
 ## 测试
