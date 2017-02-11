@@ -59,35 +59,36 @@ plugins: [
 	    "zipFileName": "offline",
         "src": "dist",
         "map": [
-        {
-            "src": "cdn/js",
-            "dest": "js",
-            // String, 目标文件路径子文件夹，默认为空字符串
-            "isSameOrigin": true, 
-            // Boolean， 默认 false，如果为 true， 则会将 cdn 的 url替换成与 isWebserver 为 true 的 cdn url
-            "url": "s1.url.cn/huayang/"
-        },
-        {
-            "src": "cdn/css",
-            "dest": "css",
-            "url": "s2.url.cn/huayang/"
-        },
-        {
-            "src": "cdn/img",
-            "dest": "img",
-            "url": "s3.url.cn/huayang/"
-        },
-        {
-            "src": "cdn/lib",
-            "dest": "lib",
-            "url": "s1.url.cn/huayang/"
-        },
-        {
-            "src": "webserver",
-            "isWebserver": true,
-            // Boolean， 默认为 false，如果为 true，则这将告诉插件这是 html 的主要 cdn url 
-            "url": "huayang.qq.com/huayang/activity/"
-        }
+            {
+                "src": "cdn/js",
+                "dest": "js",
+                // String, 目标文件路径子文件夹，默认为空字符串
+                "isSameOrigin": true, 
+                // Boolean， 默认 false，如果为 true， 则会将 cdn 的 url替换成与 isWebserver 为 true 的 cdn url
+                "url": "s1.url.cn/huayang/"
+            },
+            {
+                "src": "cdn/css",
+                "dest": "css",
+                "url": "s2.url.cn/huayang/"
+            },
+            {
+                "src": "cdn/img",
+                "dest": "img",
+                "url": "s3.url.cn/huayang/"
+            },
+            {
+                "src": "cdn/lib",
+                "dest": "lib",
+                "url": "s1.url.cn/huayang/"
+            },
+            {
+                "src": "webserver",
+                "isWebserver": true,
+                // Boolean， 默认为 false，如果为 true，则这将告诉插件这是 html 的主要 cdn url 
+                "url": "huayang.qq.com/huayang/activity/"
+            }
+        ]
 	})
 ]
 
