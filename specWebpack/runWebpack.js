@@ -25,7 +25,7 @@ async.filter(webpackConfig, function(configPath, callback) {
 	
 }, function(err, results){
     if (!err) {
-    	// console.log(results);
+    	
     }
     else {
     	console.log(err);

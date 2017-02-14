@@ -57,8 +57,12 @@ AkWebpackPlugin.prototype.apply = function(compiler) {
 	});
 };
 
-AkWebpackPlugin.prototype.info = function(msg) {
+AkWebpackPlugin.prototype.success = function(msg) {
 	console.log(msg.green);
+};
+
+AkWebpackPlugin.prototype.info = function(msg) {
+	console.log(msg.cyan);
 };
 
 AkWebpackPlugin.prototype.warn = function(msg) {
@@ -181,20 +185,29 @@ AkWebpackPlugin.prototype.zipFiles = function() {
 	    store: true // Sets the compression method to STORE.
 	});
 
-	output.on('close', function() {
-	  console.log(archive.pointer() + ' total bytes');
-	  console.log('archiver has been finalized and the output file descriptor has closed.');
+	output.on('close', () => {
+	  this.info(archive.pointer() + ' total bytes');
+	  this.info('archiver has been finalized and the output file descriptor has closed.');
 	});
 
 	// good practice to catch this error explicitly
-	archive.on('error', function(err) {
-	  throw err;
+	archive.on('error', (err) => {
+		this.error('error');
+		throw err;
 	});
 
-	archive.directory(this.config.zipFileName);
+	let zipFiles = klawSync(path.resolve(this.config.zipFileName), {nodir: true});
+
+	// archive.directory('offline/');
+	
+	zipFiles.forEach((item) => {
+		archive.file(item.path, { name: path.relative(this.config.zipFileName, item.path) });
+	});
 
 	// pipe archive data to the file
 	archive.pipe(output);
+
+	archive.finalize();
 
 };
 

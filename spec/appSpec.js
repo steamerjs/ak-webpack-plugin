@@ -1,11 +1,12 @@
 "use strict";
 
 const path = require('path'),
-	  fs = require('fs');
+	  fs = require('fs'),
+      decompress = require('decompress');
 
 
 describe("resource-build", function() {
-  	it("=> check offline folder", function() {
+  	it("=> check offline folder", function(cb) {
 
   		expect(fs.existsSync('specWebpack/dist/resource-build/offline.zip')).toBe(true);
   		
@@ -37,11 +38,24 @@ describe("resource-build", function() {
     	    libsFolder = fs.readdirSync(libs);
 
     	expect(libsFolder[0]).toBe('react.js');
+
+        decompress(path.resolve('specWebpack/dist/resource-build/offline.zip'), path.resolve('specWebpack/dist/resource-build/unzip')).then(files => {
+            let filesArr = [];
+
+            files.map((item) => {
+                filesArr.push(item.path);
+            });
+            expect(!!~filesArr.indexOf('localhost/8000/css/index.css')).toBe(true);
+            expect(!!~filesArr.indexOf('localhost/8000/js/index.js')).toBe(true);
+            expect(!!~filesArr.indexOf('localhost/8000/js/libs/react.js')).toBe(true);
+            expect(!!~filesArr.indexOf('localhost/9000/entry.html')).toBe(true);
+            cb();
+        });
   	});
 });
 
 describe("resource-sameorigin", function() {
-    it("=> check offline folder with same origin js files", function() {
+    it("=> check offline folder with same origin js files", function(cb) {
 
         expect(fs.existsSync('specWebpack/dist/resource-sameorigin/offline.zip')).toBe(true);
       
@@ -92,6 +106,20 @@ describe("resource-sameorigin", function() {
         });
 
         expect(matchCount).toBe(1);
+
+        decompress(path.resolve('specWebpack/dist/resource-sameorigin/offline.zip'), path.resolve('specWebpack/dist/resource-sameorigin/unzip')).then(files => {
+            let filesArr = [];
+
+            files.map((item) => {
+                filesArr.push(item.path);
+            });
+            
+            expect(!!~filesArr.indexOf('localhost/8000/css/index.css')).toBe(true);
+            expect(!!~filesArr.indexOf('localhost/9000/entry.html')).toBe(true);
+            expect(!!~filesArr.indexOf('localhost/9000/js/index.js')).toBe(true);
+            expect(!!~filesArr.indexOf('localhost/9000/js/libs/react.js')).toBe(true);
+            cb();
+        });
 
 
     });

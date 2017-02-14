@@ -1,6 +1,6 @@
 {
   "name": "ak-webpack-plugin",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "alloyteam zip plugin for ak offline platform",
   "keywords": [
     "front-end",
@@ -42,6 +42,7 @@
     "babel-preset-es2015": "^6.22.0",
     "copy-webpack-plugin-hash": "^4.0.1",
     "css-loader": "^0.26.1",
+    "decompress": "^4.0.0",
     "extract-text-webpack-plugin-steamer": "^1.0.1",
     "html-loader": "^0.4.4",
     "html-res-webpack-plugin": "^1.3.0",
