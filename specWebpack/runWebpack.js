@@ -23,11 +23,8 @@ async.filter(webpackConfig, function(configPath, callback) {
 	    callback(err, stats);
 	});
 	
-}, function(err, results){
-    if (!err) {
-    	
-    }
-    else {
+}, function(err, results) {
+    if (err) {
     	console.log(err);
     }
 });

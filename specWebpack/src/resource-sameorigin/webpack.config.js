@@ -38,6 +38,13 @@ var webpackConfig = {
                 include: path.resolve(config.path.src)
             },
             {
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                loaders: [
+                    "url-loader?limit=1000&name=img/[path]/[name].[ext]",
+                ],
+                include: path.resolve(config.path.src)
+            },
+            {
                 test: /\.html$/,
                 loader: 'html-loader'
             },
@@ -75,6 +82,12 @@ var webpackConfig = {
                     "src": "cdn/css",
                     "dest": "css",
                     "url": config.cdn
+                },
+                {
+                    "src": "cdn/img",
+                    "dest": "img",
+                    "url": config.cdn,
+                    "exclude": ["img"]
                 }
             ]
         })

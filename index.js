@@ -9,7 +9,8 @@ const fs = require('fs-extra'),
 	  path = require('path'),
 	  archiver = require('archiver'),
 	  colors = require('colors'),
-	  _ = require('lodash');
+	  _ = require('lodash'),
+	  minimatch = require('minimatch');
 
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
@@ -44,10 +45,13 @@ function AkWebpackPlugin(opts) {
 AkWebpackPlugin.prototype.apply = function(compiler) {
 	compiler.plugin("after-emit", (compilation, callback) => {
 
-		this.warn("=====ak-webapck-plugin=====");
+		this.warn("ak-webapck-plugin:\n");
 
 		this.addDestUrl();
+
 		this.copyFiles();
+
+		this.excludeFiles();
 			
 		this.replaceUrl();
 
@@ -117,11 +121,52 @@ AkWebpackPlugin.prototype.copyFiles = function() {
 		let url = item.destUrl.replace("http://", "").replace("https://", "").replace("//", "").replace(":", "/"),
 			dest = item.dest || "";
 
-		let destPath = path.join(cwd, this.config.zipFileName, url, dest);
+		let destPath = path.resolve(cwd, this.config.zipFileName, url, dest);
+
 
 		fs.copySync(srcPath, destPath);
 
-		this.info(destPath + " is copied success!");
+		// this.info(destPath + " is copied success!");
+	});
+};
+
+/**
+ * [remove exclude folder or files]
+ */
+AkWebpackPlugin.prototype.excludeFiles = function() {
+
+	let cwd = process.cwd(),
+		excludeFilesArr = [];
+
+	this.config.map.forEach((item, key) => {
+
+		let url = item.destUrl.replace("http://", "").replace("https://", "").replace("//", "").replace(":", "/"),
+			dest = item.dest || "";
+
+		let destPath = path.resolve(cwd, this.config.zipFileName, url, dest);
+
+		if (!item.exclude || !item.exclude.length) {
+			return;
+		}
+
+		// include folder itself
+		let walkFiles = klawSync(destPath);
+		walkFiles.unshift({path: destPath});
+
+		walkFiles.forEach((file) => {
+			// loop through exclude files patterns
+			item.exclude.forEach((match) => {
+				if (minimatch(file.path, match, {
+					matchBase: true,
+					dot: true
+				})) {
+					if (fs.existsSync(file.path)) {
+						fs.removeSync(file.path);
+					}
+				}
+			})
+			
+		});
 	});
 };
 
@@ -186,8 +231,7 @@ AkWebpackPlugin.prototype.zipFiles = function() {
 	});
 
 	output.on('close', () => {
-	  this.info(archive.pointer() + ' total bytes');
-	  this.info('archiver has been finalized and the output file descriptor has closed.');
+		this.info('Zip file total size: ' + Math.floor(archive.pointer() / 1024) + 'KB\n');
 	});
 
 	// good practice to catch this error explicitly

@@ -49,6 +49,9 @@ describe("resource-build", function() {
             expect(!!~filesArr.indexOf('localhost/8000/js/index.js')).toBe(true);
             expect(!!~filesArr.indexOf('localhost/8000/js/libs/react.js')).toBe(true);
             expect(!!~filesArr.indexOf('localhost/9000/entry.html')).toBe(true);
+            expect(!!~filesArr.indexOf('localhost/8000/img/specWebpack/src/resource-build/img/adidas.jpg')).toBe(true);
+            expect(!!~filesArr.indexOf('localhost/8000/img/specWebpack/src/resource-build/img/google.jpg')).toBe(true);
+            expect(!!~filesArr.indexOf('localhost/8000/img/specWebpack/src/resource-build/img/ibm.jpg')).toBe(true);
             cb();
         });
   	});
@@ -118,6 +121,7 @@ describe("resource-sameorigin", function() {
             expect(!!~filesArr.indexOf('localhost/9000/entry.html')).toBe(true);
             expect(!!~filesArr.indexOf('localhost/9000/js/index.js')).toBe(true);
             expect(!!~filesArr.indexOf('localhost/9000/js/libs/react.js')).toBe(true);
+            expect(!!~filesArr.indexOf('localhost/8000/img')).toBe(false);
             cb();
         });
 
