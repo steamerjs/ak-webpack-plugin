@@ -9,7 +9,6 @@ const fs = require('fs-extra'),
 	  path = require('path'),
 	  archiver = require('archiver'),
 	  colors = require('colors'),
-	  _ = require('lodash'),
 	  minimatch = require('minimatch');
 
 String.prototype.replaceAll = function(search, replacement) {
@@ -85,7 +84,7 @@ AkWebpackPlugin.prototype.addDestUrl = function() {
 	let hasWebserver = false,
 		webServerConfig = {};
 
-	this.config.map.map((item, key) => {
+	this.config.map.map((item) => {
 
 		if (item.isWebserver) {
 			hasWebserver = true;
@@ -94,7 +93,7 @@ AkWebpackPlugin.prototype.addDestUrl = function() {
 
 	});
 
-	this.config.map.map((item, key) => {
+	this.config.map.map((item) => {
 
 		item.destUrl = item.url;
 
@@ -115,7 +114,7 @@ AkWebpackPlugin.prototype.copyFiles = function() {
 	fs.removeSync(path.join(cwd, this.config.zipFileName));
 	fs.removeSync(path.join(cwd, this.config.zipFileName + ".zip"));
 
-	this.config.map.forEach((item, key) => {
+	this.config.map.forEach((item) => {
 		let srcPath = path.join(this.config.src, item.src);
 
 		let url = item.destUrl.replace("http://", "").replace("https://", "").replace("//", "").replace(":", "/"),
@@ -135,10 +134,9 @@ AkWebpackPlugin.prototype.copyFiles = function() {
  */
 AkWebpackPlugin.prototype.excludeFiles = function() {
 
-	let cwd = process.cwd(),
-		excludeFilesArr = [];
+	let cwd = process.cwd();
 
-	this.config.map.forEach((item, key) => {
+	this.config.map.forEach((item) => {
 
 		let url = item.destUrl.replace("http://", "").replace("https://", "").replace("//", "").replace(":", "/"),
 			dest = item.dest || "";
@@ -164,7 +162,7 @@ AkWebpackPlugin.prototype.excludeFiles = function() {
 						fs.removeSync(file.path);
 					}
 				}
-			})
+			});
 			
 		});
 	});
@@ -181,7 +179,7 @@ AkWebpackPlugin.prototype.replaceUrl = function() {
 		cdnDestUrl = null,
 		cdnUrl = null;
 
-	this.config.map.forEach((item, key) => {
+	this.config.map.forEach((item) => {
 		if (item.isWebserver) {
 			hasWebserver = true;
 			webserverDestUrl = item.destUrl;
@@ -203,11 +201,11 @@ AkWebpackPlugin.prototype.replaceUrl = function() {
 
 			let files = klawSync(srcPath);
 
-			files = files.filter((item, key) => {
+			files = files.filter((item) => {
 				return path.extname(item.path) === "." + extname;
 			});
 
-			files.map((item, key) => {
+			files.map((item) => {
 				let content = fs.readFileSync(item.path, "utf-8");
 				content = content.replaceJsAll(cdnUrl, webserverUrl);
 				fs.writeFileSync(item.path, content, "utf-8");

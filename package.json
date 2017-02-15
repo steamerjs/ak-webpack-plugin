@@ -24,8 +24,9 @@
     "index.js"
   ],
   "scripts": {
+    "lint": "eslint index.js",
     "pretest": "node ./specWebpack/runWebpack.js",
-    "test": "jasmine"
+    "test": "npm run lint && jasmine"
   },
   "dependencies": {
     "archiver": "^1.3.0",
