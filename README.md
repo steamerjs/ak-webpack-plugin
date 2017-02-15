@@ -6,7 +6,7 @@ AlloyKit平台生成离线包命令
 
 ## 安装
 
-```
+```javascript
 npm i --save ak-webpack-plugin
 
 npm i --save-dev ak-webpack-plugin
