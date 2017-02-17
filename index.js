@@ -42,7 +42,7 @@ function AkWebpackPlugin(opts) {
 }
 
 AkWebpackPlugin.prototype.apply = function(compiler) {
-	compiler.plugin("after-emit", (compilation, callback) => {
+	compiler.plugin("done", () => {
 
 		this.warn("ak-webapck-plugin:\n");
 
@@ -56,7 +56,6 @@ AkWebpackPlugin.prototype.apply = function(compiler) {
 
 		this.zipFiles();
 
-		callback();
 	});
 };
 
