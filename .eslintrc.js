@@ -8,6 +8,7 @@ module.exports = {
     "extends": "eslint:recommended",
     rules: {
     	"indent": 0,
+        "no-extra-boolean-cast": 0,
     	"no-console": 0,
         "no-redeclare": 1,
         "no-unused-vars": 1,

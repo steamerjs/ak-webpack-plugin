@@ -6,7 +6,7 @@ var webpack = require('webpack'),
 
 var HtmlResWebpackPlugin = require('html-res-webpack-plugin'),
 	ExtractTextPlugin = require("extract-text-webpack-plugin-steamer"),
-    AkWebpackPlugin = require('ak-webpack-plugin');
+    AkWebpackPlugin = require('../../../index');
 
 var webpackConfig = {
 	entry: {

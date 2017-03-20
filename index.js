@@ -16,7 +16,7 @@ String.prototype.replaceAll = function(search, replacement) {
     return target.replace(new RegExp(search, 'gi'), replacement);
 };
 
-String.prototype.replaceJsAll = function(search, replacement) {
+String.prototype.replaceJsAll = function(search, replacement, extension) {
     var target = this,
     	cdnUrl = search.replace("//", ""),
     	webserverUrl = replacement.replace("//", "");
@@ -24,13 +24,25 @@ String.prototype.replaceJsAll = function(search, replacement) {
     search = search.replace("//", "");
     if (search[search.length - 1] === "/") {
     	search = search.substr(0, search.length - 1);
-    	search += "\\\/";
+    	// search += "\\\/";
     }
 
-    return target.replace(new RegExp("(.\\\s*)" + search + "(.*)(.js)", 'gi'), function(match) {
-    	match = match.replace(cdnUrl, webserverUrl);
-    	return match;
-    });
+    if (extension === 'html') {
+	    target = target.replace(new RegExp("(<script[^>]*src=([\'\"]*)(.*?)([\'\"]*).*?\>(<\/script>)?)", 'gi'), function(match) {
+	    	if (!!~match.indexOf(cdnUrl)) {
+	    		match = match.replace(cdnUrl, webserverUrl);
+	    	}
+	    	return match;
+	    });
+	}
+	else if (extension === 'js') {
+	    target = target.replace(new RegExp(search + "(\\\/(\\w){0,})+(.js)", 'gi'), function(match) {
+	    	match = match.replace(cdnUrl, webserverUrl);
+	    	return match;
+	    });
+	}
+
+    return target;
 };
 
 function AkWebpackPlugin(opts) {
@@ -199,14 +211,13 @@ AkWebpackPlugin.prototype.replaceUrl = function() {
 			srcPath = path.resolve(srcPath.replace(":", "/"));
 
 			let files = klawSync(srcPath);
-
 			files = files.filter((item) => {
 				return path.extname(item.path) === "." + extname;
 			});
 
 			files.map((item) => {
 				let content = fs.readFileSync(item.path, "utf-8");
-				content = content.replaceJsAll(cdnUrl, webserverUrl);
+				content = content.replaceJsAll(cdnUrl, webserverUrl, extname);
 				fs.writeFileSync(item.path, content, "utf-8");
 			});
 		}

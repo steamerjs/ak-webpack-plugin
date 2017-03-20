@@ -10,12 +10,12 @@ var HtmlResWebpackPlugin = require('html-res-webpack-plugin'),
 
 var webpackConfig = {
 	entry: {
-        'libs/react': [path.join(config.path.src, "/resource-sameorigin/libs/react")],
-        'index': [path.join(config.path.src, "/resource-sameorigin/index")],
+        'libs/react': [path.join(config.path.src, "/resource-sameorigin-withoutuglify/libs/react")],
+        'index': [path.join(config.path.src, "/resource-sameorigin-withoutuglify/index")],
     },
     output: {
         publicPath: config.cdn,
-        path: path.join(config.path.dist + '/resource-sameorigin/cdn/'),
+        path: path.join(config.path.dist + '/resource-sameorigin-withoutuglify/cdn/'),
         filename: "js/[name].js",
         chunkFilename: "chunk/[name].js",
     },
@@ -59,17 +59,12 @@ var webpackConfig = {
         new HtmlResWebpackPlugin({
             mode: 'html',
         	filename: "../webserver/entry.html",
-	        template: config.path.src + "/resource-sameorigin/index.html",
+	        template: config.path.src + "/resource-sameorigin-withoutuglify/index.html",
             // cssPublicPath: "//localhost:1111/",
 	        htmlMinify: null
         }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
-        }),
         new AkWebpackPlugin({
-            "zipFileName": "specWebpack/dist/resource-sameorigin/offline",
+            "zipFileName": "specWebpack/dist/resource-sameorigin-withoutuglify/offline",
             "src": "specWebpack/dist/resource-sameorigin/",
             "map": [
                 {
