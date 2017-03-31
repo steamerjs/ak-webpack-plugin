@@ -18,6 +18,7 @@ var webpackConfig = {
         path: path.join(config.path.dist + '/resource-sameorigin-withoutuglify/cdn/'),
         filename: "js/[name].js",
         chunkFilename: "chunk/[name].js",
+        crossOriginLoading: true
     },
     module: {
         loaders: [
@@ -65,7 +66,7 @@ var webpackConfig = {
         }),
         new AkWebpackPlugin({
             "zipFileName": "specWebpack/dist/resource-sameorigin-withoutuglify/offline",
-            "src": "specWebpack/dist/resource-sameorigin/",
+            "src": "specWebpack/dist/resource-sameorigin-withoutuglify/",
             "map": [
                 {
                     "src": "webserver",
