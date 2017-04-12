@@ -8,7 +8,7 @@ const fs = require('fs-extra'),
 	  klawSync = require('klaw-sync'),
 	  path = require('path'),
 	  archiver = require('archiver'),
-	  colors = require('colors'),
+	  chalk = require('chalk'),
 	  minimatch = require('minimatch');
 
 String.prototype.replaceAll = function(search, replacement) {
@@ -72,19 +72,19 @@ AkWebpackPlugin.prototype.apply = function(compiler) {
 };
 
 AkWebpackPlugin.prototype.success = function(msg) {
-	console.log(msg.green);
+	console.log(chalk.green(msg));
 };
 
 AkWebpackPlugin.prototype.info = function(msg) {
-	console.log(msg.cyan);
+	console.log(chalk.cyan(msg));
 };
 
 AkWebpackPlugin.prototype.warn = function(msg) {
-	console.log(msg.yellow);
+	console.log(chalk.yellow(msg));
 };
 
 AkWebpackPlugin.prototype.alert = function(msg) {
-	console.log(msg.red);
+	console.log(chalk.red(msg));
 };
 
 /**
