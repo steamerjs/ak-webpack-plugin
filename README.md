@@ -3,8 +3,8 @@
 AlloyKit平台生成离线包命令
 
 [![NPM Version](https://img.shields.io/npm/v/ak-webpack-plugin.svg?style=flat)](https://www.npmjs.com/package/ak-webpack-plugin)
-[![Travis](https://img.shields.io/travis/lcxfs1991/ak-webpack-plugin.svg)](https://travis-ci.org/lcxfs1991/ak-webpack-plugin)
-[![Deps](https://david-dm.org/lcxfs1991/ak-webpack-plugin.svg)](https://david-dm.org/lcxfs1991/ak-webpack-plugin)
+[![Travis](https://img.shields.io/travis/SteamerTeam/ak-webpack-plugin.svg)](https://travis-ci.org/SteamerTeam/ak-webpack-plugin)
+[![Deps](https://david-dm.org/SteamerTeam/ak-webpack-plugin.svg)](https://david-dm.org/SteamerTeam/ak-webpack-plugin)
 
 ## 安装
 
