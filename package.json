@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "description": "alloyteam zip plugin for ak offline platform",
   "keywords": [
+    "alloykit",
     "front-end",
     "web",
     "webpack",
