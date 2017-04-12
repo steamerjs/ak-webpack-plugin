@@ -132,8 +132,7 @@ AkWebpackPlugin.prototype.copyFiles = function() {
 			dest = item.dest || "";
 
 		let destPath = path.resolve(cwd, this.config.zipFileName, url, dest);
-
-
+		
 		fs.copySync(srcPath, destPath);
 
 		// this.info(destPath + " is copied success!");

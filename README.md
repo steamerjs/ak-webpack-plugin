@@ -3,6 +3,8 @@
 AlloyKit平台生成离线包命令
 
 [![NPM Version](https://img.shields.io/npm/v/ak-webpack-plugin.svg?style=flat)](https://www.npmjs.com/package/ak-webpack-plugin)
+[![Travis](https://img.shields.io/travis/lcxfs1991/ak-webpack-plugin.svg)](https://travis-ci.org/lcxfs1991/ak-webpack-plugin)
+[![Deps](https://david-dm.org/lcxfs1991/ak-webpack-plugin.svg)](https://david-dm.org/lcxfs1991/ak-webpack-plugin)
 
 ## 安装
 
@@ -158,12 +160,3 @@ npm i -g eslint
 
 npm run test
 ```
-
-## 变更
-* v1.0.0 离线包打包及 `webserver` 替换 `cdn` 的 `url`
-* v1.0.1 更换成中文文档
-* v1.1.0 配置更改并修复同域js文件位置错误问题
-* v1.1.1 修复压缩包报错
-* v1.1.2 支持部份文件走离线包，部份走线上
-* v1.1.3 修复文件被锁问题
-* v1.1.4 修复压缩文件后的域名匹配问题
