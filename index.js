@@ -17,17 +17,18 @@ String.prototype.replaceAll = function(search, replacement) {
 };
 
 String.prototype.replaceJsAll = function(search, replacement, extension) {
-    var target = this,
+	var target = this,
+		originSearch = search,
+		originWebserver = replacement,
     	cdnUrl = search.replace("//", ""),
     	webserverUrl = replacement.replace("//", "");
 
-    search = search.replace("//", "");
-    if (search[search.length - 1] === "/") {
+	search = search.replace("//", "");
+	if (search[search.length - 1] === "/") {
     	search = search.substr(0, search.length - 1);
-    	// search += "\\\/";
-    }
+	}
 
-    if (extension === 'html') {
+	if (extension === 'html') {
 	    target = target.replace(new RegExp("(<script[^>]*src=([\'\"]*)(.*?)([\'\"]*).*?\>(<\/script>)?)", 'gi'), function(match) {
 	    	if (!!~match.indexOf(cdnUrl)) {
 	    		match = match.replace(cdnUrl, webserverUrl);
@@ -38,6 +39,12 @@ String.prototype.replaceJsAll = function(search, replacement, extension) {
 	else if (extension === 'js') {
 	    target = target.replace(new RegExp(search + "(\\\/(\\w){0,})+(.js)", 'gi'), function(match) {
 	    	match = match.replace(cdnUrl, webserverUrl);
+	    	return match;
+	    });
+
+	    target = target.replace(new RegExp("[\"|']" + originSearch + "[\"|']", 'gi'), function(match) {
+	    	match = match.replace(match, "\"" + originWebserver + "\"");
+
 	    	return match;
 	    });
 	}

@@ -118,6 +118,19 @@ describe("resource-sameorigin", function() {
             }
         });
 
+        jsContent.replace(new RegExp("[\"|']\/\/localhost:9000\/[\"|']", 'gi'), function(match) {
+            matchCount++;
+        });
+
+        expect(matchCount).to.be(2);
+
+        matchCount = 0;
+        jsContent = fs.readFileSync(path.join(RUN_WEBPACK_DIST, '/resource-sameorigin/offline/localhost/9000/js/libs/react.js'), "utf-8");
+
+        jsContent.replace(new RegExp("[\"|']\/\/localhost:9000\/[\"|']", 'gi'), function(match) {
+            matchCount++;
+        });
+
         expect(matchCount).to.be(1);
 
         decompress(path.join(RUN_WEBPACK_DIST, '/resource-sameorigin/offline.zip'), path.join(RUN_WEBPACK_DIST, '/resource-sameorigin/unzip')).then(files => {
@@ -191,6 +204,19 @@ describe("resource-sameorigin", function() {
             if (!!~match.indexOf('localhost:9000')) {
                 matchCount++;
             }
+        });
+
+        jsContent.replace(new RegExp("[\"|']\/\/localhost:9000\/[\"|']", 'gi'), function(match) {
+            matchCount++;
+        });
+
+        expect(matchCount).to.be(2);
+
+        matchCount = 0;
+        jsContent = fs.readFileSync(path.join(RUN_WEBPACK_DIST, '/resource-sameorigin-withoutuglify/offline/localhost/9000/js/libs/react.js'), "utf-8");
+
+        jsContent.replace(new RegExp("[\"|']\/\/localhost:9000\/[\"|']", 'gi'), function(match) {
+            matchCount++;
         });
 
         expect(matchCount).to.be(1);

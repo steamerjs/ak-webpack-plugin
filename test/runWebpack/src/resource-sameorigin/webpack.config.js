@@ -50,7 +50,14 @@ var webpackConfig = {
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
                 loaders: [
-                    "url-loader?limit=1000&name=img/[path]/[name].[ext]",
+                    {
+                        loader: "url-loader",
+                        options: {
+                            limit: 1,
+                            name: "img/[path]/[name].[ext]",
+                            publicPath: "//localhost:7000/"
+                        }
+                    }
                 ],
                 include: path.resolve(config.path.src)
             },
