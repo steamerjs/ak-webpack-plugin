@@ -30,15 +30,15 @@ plugins: [
             zlib: { level: 9 },
         },  // 压缩参数，详参 https://archiverjs.com
         "map": [
-	        {
-	            "src": "webserver",
-	            "url": "//localhost:9000/"
-	        },
-	        {
-	            "src": "cdn",
-	            "url": "//localhost:8000/"
-	        }
-	    ]
+            {
+                "src": "webserver",
+                "url": "//localhost:9000/"
+            },
+            {
+                "src": "cdn",
+                "url": "//localhost:8000/"
+            }
+        ]
 	    // 具体的文件目录及cdn映射
 	})
 ]
