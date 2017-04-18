@@ -84,6 +84,9 @@ var webpackConfig = {
         new AkWebpackPlugin({
             "zipFileName": "test/runWebpack/dist/resource-build/offline",
             "src": "test/runWebpack/dist/resource-build/",
+            "zipConfig": {
+                zlib: { level: 9 },
+            }, 
             "map": [
                 {
                     "src": "webserver",

@@ -58,6 +58,7 @@ function AkWebpackPlugin(opts) {
 	this.config.src = opts.src || 'src';
 	this.config.isSameOrigin = opts.isSameOrigin || false;
 	this.config.map = opts.map || [];
+	this.config.zipConfig = opts.zipConfig || {};
 }
 
 AkWebpackPlugin.prototype.apply = function(compiler) {
@@ -240,9 +241,7 @@ AkWebpackPlugin.prototype.zipFiles = function() {
 	let zipPath = path.resolve(this.config.zipFileName + ".zip");
 
 	var output = fs.createWriteStream(zipPath);
-	var archive = archiver('zip', {
-	    store: true // Sets the compression method to STORE.
-	});
+	var archive = archiver('zip', this.config.zipConfig);
 
 	output.on('close', () => {
 		this.info('Zip file total size: ' + Math.floor(archive.pointer() / 1024) + 'KB\n');
