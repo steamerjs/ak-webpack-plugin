@@ -59,6 +59,7 @@ function AkWebpackPlugin(opts) {
 	this.config.isSameOrigin = opts.isSameOrigin || false;
 	this.config.map = opts.map || [];
 	this.config.zipConfig = opts.zipConfig || {};
+	this.config.keepOffline = opts.keepOffline || false;
 }
 
 AkWebpackPlugin.prototype.apply = function(compiler) {
@@ -245,6 +246,12 @@ AkWebpackPlugin.prototype.zipFiles = function() {
 
 	output.on('close', () => {
 		this.info('Zip file total size: ' + Math.floor(archive.pointer() / 1024) + 'KB\n');
+
+		// del offline folder
+		let offlinePath = path.resolve(this.config.zipFileName);
+		if (!this.config.keepOffline && fs.existsSync(offlinePath)) {
+			fs.remove(offlinePath);
+		}
 	});
 
 	// good practice to catch this error explicitly

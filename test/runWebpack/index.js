@@ -11,6 +11,7 @@ var basePath = path.resolve('./test/runWebpack/src/');
 
 var webpackConfig = [
 	require(basePath + '/resource-build/webpack.config.js'),
+	require(basePath + '/resource-build1/webpack.config.js'),
 	require(basePath + '/resource-sameorigin/webpack.config.js'),
 	require(basePath + '/resource-sameorigin-withoutuglify/webpack.config.js'),
 ];
