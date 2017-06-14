@@ -67,7 +67,7 @@ describe("resource-build1", function() {
         let dest = path.join(RUN_WEBPACK_DIST, '/resource-build1/'),
             destInfo = fs.readdirSync(dest);
 
-        expect(destInfo.includes('ak')).to.be(false);
+        expect(destInfo.indexOf('ak') === -1).to.be(true);
 
         expect(fs.existsSync(path.join(RUN_WEBPACK_DIST, '/resource-build1/ak.zip'))).to.be(true);
 
