@@ -3,8 +3,8 @@
 AlloyKit平台生成离线包命令
 
 [![NPM Version](https://img.shields.io/npm/v/ak-webpack-plugin.svg?style=flat)](https://www.npmjs.com/package/ak-webpack-plugin)
-[![Travis](https://img.shields.io/travis/SteamerTeam/ak-webpack-plugin.svg)](https://travis-ci.org/SteamerTeam/ak-webpack-plugin)
-[![Deps](https://david-dm.org/SteamerTeam/ak-webpack-plugin.svg)](https://david-dm.org/SteamerTeam/ak-webpack-plugin)
+[![Travis](https://img.shields.io/travis/steamerjs/ak-webpack-plugin.svg)](https://travis-ci.org/steamerjs/ak-webpack-plugin)
+[![Deps](https://david-dm.org/steamerjs/ak-webpack-plugin.svg)](https://david-dm.org/steamerjs/ak-webpack-plugin)
 
 ## 安装
 
@@ -26,6 +26,8 @@ plugins: [
 	    // String, 最终生成的离线包名称，默认值是 `offline`，**当前文件夹位置以命令执行位置为基准**
 	    "src": "dist",
 	    // String, 生成环境的代码源，默认值 `dist`
+        "keepOffline": true,
+        // 是否保留生成的离线包文件夹(zip包的源文件)
 	    "zipConfig": {
             zlib: { level: 9 },
         },  // 压缩参数，详参 https://archiverjs.com
