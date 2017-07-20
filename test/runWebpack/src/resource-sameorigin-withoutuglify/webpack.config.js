@@ -91,6 +91,7 @@ var webpackConfig = {
         new AkWebpackPlugin({
             "zipFileName": "test/runWebpack/dist/resource-sameorigin-withoutuglify/offline",
             "src": "test/runWebpack/dist/resource-sameorigin-withoutuglify/",
+            "keepOffline": true,
             "map": [
                 {
                     "src": "webserver",

@@ -82,8 +82,9 @@ var webpackConfig = {
 	        htmlMinify: null
         }),
         new AkWebpackPlugin({
-            "zipFileName": "test/runWebpack/dist/resource-build/offline",
+            "zipFileName": "test/runWebpack/dist/resource-build/ak",
             "src": "test/runWebpack/dist/resource-build/",
+            "keepOffline": true,
             "zipConfig": {
                 zlib: { level: 9 },
             }, 

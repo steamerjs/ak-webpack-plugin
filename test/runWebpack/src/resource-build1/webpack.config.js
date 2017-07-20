@@ -11,12 +11,12 @@ var HtmlResWebpackPlugin = require('html-res-webpack-plugin'),
 var webpackConfig = {
     context: config.path.src,
 	entry: {
-        'libs/react': [path.join(config.path.src, "/resource-sameorigin/libs/react")],
-        'index': [path.join(config.path.src, "/resource-sameorigin/index")],
+        'libs/react': [path.join(config.path.src, "/resource-build1/libs/react")],
+        'index': [path.join(config.path.src, "/resource-build1/index")],
     },
     output: {
         publicPath: config.cdn,
-        path: path.join(config.path.dist + '/resource-sameorigin/cdn/'),
+        path: path.join(config.path.dist + '/resource-build1/cdn/'),
         filename: "js/[name].js",
         chunkFilename: "chunk/[name].js",
     },
@@ -50,14 +50,7 @@ var webpackConfig = {
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
                 loaders: [
-                    {
-                        loader: "url-loader",
-                        options: {
-                            limit: 1,
-                            name: "img/[path]/[name].[ext]",
-                            publicPath: "//localhost:7000/"
-                        }
-                    }
+                    "url-loader?limit=1000&name=img/[path]/[name].[ext]",
                 ],
                 include: path.resolve(config.path.src)
             },
@@ -77,52 +70,39 @@ var webpackConfig = {
     },
     plugins: [
         new webpack.NoEmitOnErrorsPlugin(),
-        new ExtractTextPlugin({filename: "./css/[name].css",
-            // publicPath: "//localhost:1111/",
+        new ExtractTextPlugin({
+            filename: "./css/[name].css",
+            publicPath: "//localhost:1111/",
         }),
         new HtmlResWebpackPlugin({
             mode: 'html',
         	filename: "../webserver/entry.html",
-	        template: config.path.src + "/resource-sameorigin/index.html",
-            // cssPublicPath: "//localhost:1111/",
+	        template: config.path.src + "/resource-build1/index.html",
+            cssPublicPath: "//localhost:1111/",
 	        htmlMinify: null
         }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
-        }),
         new AkWebpackPlugin({
-            "zipFileName": "test/runWebpack/dist/resource-sameorigin/offline",
-            "src": "test/runWebpack/dist/resource-sameorigin/",
-            "keepOffline": true,
+            "zipFileName": "test/runWebpack/dist/resource-build1/ak",
+            "src": "test/runWebpack/dist/resource-build1/",
+            "zipConfig": {
+                zlib: { level: 9 },
+            }, 
             "map": [
                 {
                     "src": "webserver",
-                    "isWebserver": true,
-                    "url": config.defaultPath,
+                    "url": config.defaultPath
                 },
                 {
-                    "src": "cdn/js",
-                    "dest": "js",
-                    "isSameOrigin": true,
-                    "url": config.cdn
-                },
-                {
-                    "src": "cdn/css",
-                    "dest": "css",
-                    "url": config.cdn
-                },
-                {
-                    "src": "cdn/img",
-                    "dest": "img",
+                    "src": "cdn",
                     "url": config.cdn,
-                    "exclude": ["img"]
+                    "exclude": ['*.png', '*ell.jpg'],
                 }
             ]
         })
     ],
     watch: false,
 };
+
+// console.log(webpackConfig);
 
 module.exports = webpackConfig;
