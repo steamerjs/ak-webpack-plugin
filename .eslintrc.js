@@ -17,5 +17,6 @@ module.exports = {
     	"semi": 2,
         "no-inner-declarations": 1,
         "no-unused-vars": 0,
+        "no-useless-escape": 0,
     }
 };
