@@ -31,6 +31,7 @@ plugins: [
 	    "zipConfig": {
             zlib: { level: 9 },
         },  // 压缩参数，详参 https://archiverjs.com
+        // 具体的文件目录及cdn映射
         "map": [
             {
                 "src": "webserver",
@@ -53,7 +54,6 @@ plugins: [
         afterZip: function() {
             // 在压缩 offline 离线文件夹之后
         }
-	    // 具体的文件目录及cdn映射
 	})
 ]
 
