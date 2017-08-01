@@ -40,7 +40,19 @@ plugins: [
                 "src": "cdn",
                 "url": "//localhost:8000/"
             }
-        ]
+        ],
+        beforeCopy: function() {
+            // 在 拷贝文件到 offline 离线文件夹之前
+        },
+        afterCopy: function() {
+            // 在 拷贝文件到 offline 离线文件夹之后
+        },
+        beforeZip: function() {
+            // 在压缩 offline 离线文件夹之前
+        },
+        afterZip: function() {
+            // 在压缩 offline 离线文件夹之后
+        }
 	    // 具体的文件目录及cdn映射
 	})
 ]
@@ -96,21 +108,8 @@ plugins: [
                 "url": "huayang.qq.com/huayang/activity/"
             }
         ],
-        beforeCopy: function() {
-            // 在 拷贝文件到 offline 离线文件夹之前
-        },
-        afterCopy: function() {
-            // 在 拷贝文件到 offline 离线文件夹之后
-        },
-        beforeZip: function() {
-            // 在压缩 offline 离线文件夹之前
-        },
-        afterZip: function() {
-            // 在压缩 offline 离线文件夹之后
-        }
 	})
 ]
-
 ```
 
 之所以要用 `isSameOrigin` 与 `isWebserver`，是有时候需要 `html` 文件和 `js` 文件的域名一致，例如有时候需要收集js的报错，让两者的 `cdn` 一致会更方便收集到具体的报错信息。
