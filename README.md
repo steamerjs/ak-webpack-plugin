@@ -95,7 +95,19 @@ plugins: [
                 // Boolean， 默认为 false，如果为 true，则这将告诉插件这是 html 的主要 cdn url 
                 "url": "huayang.qq.com/huayang/activity/"
             }
-        ]
+        ],
+        beforeCopy: function() {
+            // 在 拷贝文件到 offline 离线文件夹之前
+        },
+        afterCopy: function() {
+            // 在 拷贝文件到 offline 离线文件夹之后
+        },
+        beforeZip: function() {
+            // 在压缩 offline 离线文件夹之前
+        },
+        afterZip: function() {
+            // 在压缩 offline 离线文件夹之后
+        }
 	})
 ]
 

@@ -1,3 +1,6 @@
+## 2.2.1
+    - 添加 `finishCopy` 和 `finishZip` 回调
+
 ## 2.2.0
 	- 修复node8问题，请使用node8最新版本
 

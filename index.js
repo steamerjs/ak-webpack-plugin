@@ -16,6 +16,8 @@ String.prototype.replaceAll = function(search, replacement) {
     return target.replace(new RegExp(search, 'gi'), replacement);
 };
 
+function emptyFunc() {}
+
 String.prototype.replaceJsAll = function(search, replacement, extension) {
 	var target = this,
 		originSearch = search,
@@ -60,6 +62,10 @@ function AkWebpackPlugin(opts) {
 	this.config.map = opts.map || [];
 	this.config.zipConfig = opts.zipConfig || {};
 	this.config.keepOffline = opts.keepOffline || false;
+	this.config.beforeCopy = opts.beforeCopy || emptyFunc;
+	this.config.afterCopy = opts.afterCopy || emptyFunc;
+	this.config.beforeZip = opts.beforeZip || emptyFunc;
+	this.config.afterZip = opts.afterZip || emptyFunc;
 }
 
 AkWebpackPlugin.prototype.apply = function(compiler) {
@@ -129,6 +135,11 @@ AkWebpackPlugin.prototype.addDestUrl = function() {
  */
 AkWebpackPlugin.prototype.copyFiles = function() {
 
+	var beforeCopy = this.config.beforeCopy,
+		afterCopy = this.config.afterCopy;
+	
+	beforeCopy();
+
 	let cwd = process.cwd();
 
 	fs.removeSync(path.join(cwd, this.config.zipFileName));
@@ -146,6 +157,8 @@ AkWebpackPlugin.prototype.copyFiles = function() {
 
 		// this.info(destPath + " is copied success!");
 	});
+
+	afterCopy();
 };
 
 /**
@@ -239,6 +252,12 @@ AkWebpackPlugin.prototype.replaceUrl = function() {
  * [zip files]
  */
 AkWebpackPlugin.prototype.zipFiles = function() {
+
+	var beforeZip = this.config.beforeZip,
+		afterZip = this.config.afterZip;
+
+	beforeZip();
+
 	let zipPath = path.resolve(this.config.zipFileName + ".zip");
 
 	var output = fs.createWriteStream(zipPath);
@@ -272,6 +291,8 @@ AkWebpackPlugin.prototype.zipFiles = function() {
 	archive.pipe(output);
 
 	archive.finalize();
+
+	afterZip();
 
 };
 

@@ -201,8 +201,9 @@ describe("resource-sameorigin", function() {
             jsFolder = fs.readdirSync(path.join(port9000, 'js'));
 
         expect(htmlFolder[0]).to.be('entry.html');
-        expect(jsFolder[0]).to.be('index.js');
-        expect(jsFolder[1]).to.be('libs');
+        expect(jsFolder[0]).to.be('detail.js');
+        expect(jsFolder[1]).to.be('index.js');
+        expect(jsFolder[2]).to.be('libs');
 
         var port8000 = path.join(RUN_WEBPACK_DIST, '/resource-sameorigin-withoutuglify/offline/localhost/8000'),
             cssFolder = fs.readdirSync(path.join(port8000, 'css'));

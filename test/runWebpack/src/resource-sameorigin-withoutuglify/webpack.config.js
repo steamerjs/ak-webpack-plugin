@@ -1,4 +1,5 @@
-const path = require('path');
+const path = require('path'),
+      fs = require('fs');
 
 var webpack = require('webpack'),
 	config = require('../../config/config'),
@@ -115,7 +116,21 @@ var webpackConfig = {
                     "url": config.cdn,
                     "exclude": ["img"]
                 }
-            ]
+            ],
+            beforeCopy: function() {
+                console.log("======beforeCopy=====");
+                fs.writeFileSync(path.resolve("test/runWebpack/dist/resource-sameorigin-withoutuglify/cdn/js/detail.js"), "hello man!", "utf-8");
+            },
+            afterCopy: function() {
+                console.log("======afterCopy=====");
+                fs.writeFileSync(path.resolve("test/runWebpack/dist/resource-sameorigin-withoutuglify/cdn/js/comment.js"), "hello man!", "utf-8");
+            },
+            beforeZip: function() {
+                console.log("======beforeZip=====");
+            },
+            afterZip: function() {
+                console.log("======afterZip=====");
+            }
         })
     ],
     watch: false,
