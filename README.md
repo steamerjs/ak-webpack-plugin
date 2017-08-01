@@ -31,7 +31,6 @@ plugins: [
 	    "zipConfig": {
             zlib: { level: 9 },
         },  // 压缩参数，详参 https://archiverjs.com
-        // 具体的文件目录及cdn映射
         "map": [
             {
                 "src": "webserver",
@@ -42,6 +41,7 @@ plugins: [
                 "url": "//localhost:8000/"
             }
         ],
+        // 具体的文件目录及cdn映射
         beforeCopy: function() {
             // 在 拷贝文件到 offline 离线文件夹之前
         },
