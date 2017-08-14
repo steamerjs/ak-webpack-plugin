@@ -71,8 +71,6 @@ function AkWebpackPlugin(opts) {
 AkWebpackPlugin.prototype.apply = function(compiler) {
 	compiler.plugin("done", () => {
 
-		this.warn("ak-webapck-plugin:\n");
-
 		this.addDestUrl();
 
 		this.copyFiles();
@@ -87,19 +85,19 @@ AkWebpackPlugin.prototype.apply = function(compiler) {
 };
 
 AkWebpackPlugin.prototype.success = function(msg) {
-	console.log(chalk.green(msg));
+	console.log(chalk.green('[ak-webpack-plugin]  ' + msg));
 };
 
 AkWebpackPlugin.prototype.info = function(msg) {
-	console.log(chalk.cyan(msg));
+	console.log(chalk.cyan('[ak-webpack-plugin]  ' + msg));
 };
 
 AkWebpackPlugin.prototype.warn = function(msg) {
-	console.log(chalk.yellow(msg));
+	console.log(chalk.yellow('[ak-webpack-plugin]  ' + msg));
 };
 
 AkWebpackPlugin.prototype.alert = function(msg) {
-	console.log(chalk.red(msg));
+	console.log(chalk.red('[ak-webpack-plugin]  ' + msg));
 };
 
 /**
@@ -153,9 +151,10 @@ AkWebpackPlugin.prototype.copyFiles = function() {
 
 		let destPath = path.resolve(cwd, this.config.zipFileName, url, dest);
 		
-		fs.copySync(srcPath, destPath);
-
-		// this.info(destPath + " is copied success!");
+		if (fs.existsSync(srcPath)) {
+			fs.copySync(srcPath, destPath);
+		}
+		
 	});
 
 	afterCopy();
@@ -256,9 +255,15 @@ AkWebpackPlugin.prototype.zipFiles = function() {
 	var beforeZip = this.config.beforeZip,
 		afterZip = this.config.afterZip;
 
-	beforeZip();
+	let srcPath = path.resolve(this.config.zipFileName),
+		zipPath = path.resolve(this.config.zipFileName + ".zip");
 
-	let zipPath = path.resolve(this.config.zipFileName + ".zip");
+	if (!fs.existsSync(srcPath)) {
+		this.alert(srcPath + ' does not exists');
+		return;
+	}
+
+	beforeZip();
 
 	var output = fs.createWriteStream(zipPath);
 	var archive = archiver('zip', this.config.zipConfig);
@@ -275,7 +280,7 @@ AkWebpackPlugin.prototype.zipFiles = function() {
 
 	// good practice to catch this error explicitly
 	archive.on('error', (err) => {
-		this.error('error');
+		this.alert('err');
 		throw err;
 	});
 
