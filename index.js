@@ -215,6 +215,8 @@ AkWebpackPlugin.prototype.replaceUrl = function() {
 		cdnDestUrl = null,
 		cdnUrl = null;
 
+	let _this = this;
+
 	this.config.map.forEach((item) => {
 		if (item.isWebserver) {
 			hasWebserver = true;
@@ -236,7 +238,7 @@ AkWebpackPlugin.prototype.replaceUrl = function() {
 			srcPath = path.resolve(srcPath.replace(":", "/"));
 
 			if (!fs.existsSync(srcPath)) {
-				this.alert(srcPath + ' does not exist');
+				_this.alert(srcPath + ' does not exist');
 				return;
 			}
 
