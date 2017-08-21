@@ -1,6 +1,6 @@
 {
   "name": "ak-webpack-plugin",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "alloyteam zip plugin for ak offline platform",
   "keywords": [
     "alloykit",

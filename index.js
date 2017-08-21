@@ -178,6 +178,11 @@ AkWebpackPlugin.prototype.excludeFiles = function() {
 			return;
 		}
 
+		if (!fs.existsSync(destPath)) {
+			this.alert(destPath + ' does not exist');
+			return;
+		}
+
 		// include folder itself
 		let walkFiles = klawSync(destPath);
 		walkFiles.unshift({path: destPath});
@@ -229,6 +234,11 @@ AkWebpackPlugin.prototype.replaceUrl = function() {
 		function walkAndReplace(config, folder, extname) {
 			let srcPath = path.join(config.zipFileName, folder);
 			srcPath = path.resolve(srcPath.replace(":", "/"));
+
+			if (!fs.existsSync(srcPath)) {
+				this.alert(srcPath + ' does not exist');
+				return;
+			}
 
 			let files = klawSync(srcPath);
 			files = files.filter((item) => {
@@ -284,7 +294,15 @@ AkWebpackPlugin.prototype.zipFiles = function() {
 		throw err;
 	});
 
-	let zipFiles = klawSync(path.resolve(this.config.zipFileName), {nodir: true});
+
+	let zipFile = path.resolve(this.config.zipFileName);
+
+	if (!fs.existsSync(zipFile)) {
+		this.alert(zipFile + ' does not exists');
+		return;
+	}
+
+	let zipFiles = klawSync(zipFile, {nodir: true});
 
 	// archive.directory('offline/');
 	
