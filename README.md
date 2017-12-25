@@ -22,15 +22,17 @@ var AkWebpackPlugin = require('ak-webpack-plugin');
 // 通用配置，webserver 针对 html 文件，而 cdn 是针对 cdn 文件
 plugins: [
 	new AkWebpackPlugin({
-	    "zipFileName": "dist/offline", 
-	    // String, 最终生成的离线包名称，默认值是 `offline`，**当前文件夹位置以命令执行位置为基准**
-	    "src": "dist",
-	    // String, 生成环境的代码源，默认值 `dist`
-        "keepOffline": true,
+        // String, 最终生成的离线包名称，默认值是 `offline`，**当前文件夹位置以命令执行位置为基准**
+        "zipFileName": "dist/offline",
+        // String, 生成环境的代码源，默认值 `dist`
+        "src": "dist",
         // 是否保留生成的离线包文件夹(zip包的源文件)
+        "keepOffline": true,
+        // 压缩参数，详参 https://archiverjs.com
 	    "zipConfig": {
             zlib: { level: 9 },
-        },  // 压缩参数，详参 https://archiverjs.com
+        },
+        // 具体的文件目录及cdn映射
         "map": [
             {
                 "src": "webserver",
@@ -41,18 +43,22 @@ plugins: [
                 "url": "//localhost:8000/"
             }
         ],
-        // 具体的文件目录及cdn映射
+        // 下列回调方法，可以直接使用this.fs (fs-extra), this.success, this.info, this.warn, this.alert
+        // 在 拷贝文件到 offline 离线文件夹之前
         beforeCopy: function() {
-            // 在 拷贝文件到 offline 离线文件夹之前
+            
         },
+        // 在 拷贝文件到 offline 离线文件夹之后
         afterCopy: function() {
-            // 在 拷贝文件到 offline 离线文件夹之后
+            
         },
-        beforeZip: function() {
-            // 在压缩 offline 离线文件夹之前
+        // 在压缩 offline 离线文件夹之前
+        beforeZip: function(offlineFiles) {
+            // offlineFiles 在离线包文件夹内的文件信息
         },
-        afterZip: function() {
-            // 在压缩 offline 离线文件夹之后
+        // 在压缩 offline 离线文件夹之后
+        afterZip: function(zipFilePath) {
+            
         }
 	})
 ]
@@ -80,10 +86,10 @@ plugins: [
         "map": [
             {
                 "src": "cdn/js",
-                "dest": "js",
                 // String, 目标文件路径子文件夹，默认为空字符串
-                "isSameOrigin": true, 
+                "dest": "js",
                 // Boolean， 默认 false，如果为 true， 则会将 cdn 的 url替换成与 isWebserver 为 true 的 cdn url
+                "isSameOrigin": true, 
                 "url": "s1.url.cn/huayang/"
             },
             {
@@ -103,8 +109,8 @@ plugins: [
             },
             {
                 "src": "webserver",
-                "isWebserver": true,
                 // Boolean， 默认为 false，如果为 true，则这将告诉插件这是 html 的主要 cdn url 
+                "isWebserver": true,
                 "url": "huayang.qq.com/huayang/activity/"
             }
         ],
@@ -147,10 +153,11 @@ offline
 ```javascript
 plugins: [
     new AkWebpackPlugin({
-        "zipFileName": "dist/offline", 
         // String, 最终生成的离线包名称，默认值是 `offline`，**当前文件夹位置以命令执行位置为基准**
-        "src": "dist",
+        "zipFileName": "dist/offline", 
         // String, 生成环境的代码源，默认值 `dist`
+        "src": "dist",
+        // 具体的文件目录及cdn映射
         "map": [
             {
                 "src": "webserver",
@@ -162,7 +169,6 @@ plugins: [
                 "exclude": ['*.png', '*ell.jpg'],
             }
         ]
-        // 具体的文件目录及cdn映射
     })
 ]
 

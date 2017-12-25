@@ -9,7 +9,8 @@ const fs = require('fs-extra'),
 	  path = require('path'),
 	  archiver = require('archiver'),
 	  chalk = require('chalk'),
-	  minimatch = require('minimatch');
+	  minimatch = require('minimatch'),
+	  glob = require('glob');
 
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
@@ -66,6 +67,7 @@ function AkWebpackPlugin(opts) {
 	this.config.afterCopy = opts.afterCopy || emptyFunc;
 	this.config.beforeZip = opts.beforeZip || emptyFunc;
 	this.config.afterZip = opts.afterZip || emptyFunc;
+	this.fs = fs;
 }
 
 AkWebpackPlugin.prototype.apply = function(compiler) {
@@ -136,7 +138,7 @@ AkWebpackPlugin.prototype.copyFiles = function() {
 	var beforeCopy = this.config.beforeCopy,
 		afterCopy = this.config.afterCopy;
 	
-	beforeCopy();
+	beforeCopy.bind(this)();
 
 	let cwd = process.cwd();
 
@@ -157,7 +159,7 @@ AkWebpackPlugin.prototype.copyFiles = function() {
 		
 	});
 
-	afterCopy();
+	afterCopy.bind(this)();
 };
 
 /**
@@ -259,6 +261,17 @@ AkWebpackPlugin.prototype.replaceUrl = function() {
 	}
 };
 
+AkWebpackPlugin.prototype.iterateFiles = function(folderPath, cb) {
+	let files = glob.sync(path.resolve(folderPath, '**/*'));
+
+	files = files.filter((item) => {
+		let fileInfo = fs.lstatSync(path.resolve(item));
+		return fileInfo.isFile();
+	});
+
+	cb && cb.bind(this)(files);
+};
+
 /**
  * [zip files]
  */
@@ -275,7 +288,8 @@ AkWebpackPlugin.prototype.zipFiles = function() {
 		return;
 	}
 
-	beforeZip();
+	// beforeZip();
+	this.iterateFiles(this.config.zipFileName, beforeZip);
 
 	var output = fs.createWriteStream(zipPath);
 	var archive = archiver('zip', this.config.zipConfig);
@@ -317,7 +331,7 @@ AkWebpackPlugin.prototype.zipFiles = function() {
 
 	archive.finalize();
 
-	afterZip();
+	afterZip.bind(this)(`${zipFile}.zip`);
 
 };
 

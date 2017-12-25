@@ -118,18 +118,20 @@ var webpackConfig = {
                 }
             ],
             beforeCopy: function() {
-                console.log("======beforeCopy=====");
+                this.info("======beforeCopy=====");
                 fs.writeFileSync(path.resolve("test/runWebpack/dist/resource-sameorigin-withoutuglify/cdn/js/detail.js"), "hello man!", "utf-8");
             },
             afterCopy: function() {
-                console.log("======afterCopy=====");
+                this.info("======afterCopy=====");
                 fs.writeFileSync(path.resolve("test/runWebpack/dist/resource-sameorigin-withoutuglify/cdn/js/comment.js"), "hello man!", "utf-8");
             },
-            beforeZip: function() {
-                console.log("======beforeZip=====");
+            beforeZip: function(files) {
+                this.info("======beforeZip=====");
+                this.info(files);
             },
-            afterZip: function() {
-                console.log("======afterZip=====");
+            afterZip: function(zipFilePath) {
+                this.info(`======afterZip=====`);
+                this.info(zipFilePath);
             }
         })
     ],
