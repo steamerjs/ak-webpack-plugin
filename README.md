@@ -54,10 +54,11 @@ plugins: [
         },
         // 在压缩 offline 离线文件夹之前
         beforeZip: function(offlineFiles) {
-            // offlineFiles 在离线包文件夹内的文件信息
+            // offlineFiles 在离线包文件夹内的文件路径信息
         },
         // 在压缩 offline 离线文件夹之后
         afterZip: function(zipFilePath) {
+            // zipFilePath 最终生成的离线zip包路径
             
         }
 	})
