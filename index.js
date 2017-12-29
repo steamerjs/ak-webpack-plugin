@@ -68,6 +68,10 @@ function AkWebpackPlugin(opts) {
 	this.config.beforeZip = opts.beforeZip || emptyFunc;
 	this.config.afterZip = opts.afterZip || emptyFunc;
 	this.fs = fs;
+	this.config.minimatchOpt = Object.assign({
+		matchBase: true,
+		dot: true
+	}, opts.minimatchOpt || {});
 }
 
 AkWebpackPlugin.prototype.apply = function(compiler) {
@@ -192,10 +196,7 @@ AkWebpackPlugin.prototype.excludeFiles = function() {
 		walkFiles.forEach((file) => {
 			// loop through exclude files patterns
 			item.exclude.forEach((match) => {
-				if (minimatch(file.path, match, {
-					matchBase: true,
-					dot: true
-				})) {
+				if (minimatch(file.path, match, this.config.minimatchOpt)) {
 					if (fs.existsSync(file.path)) {
 						fs.removeSync(file.path);
 					}
