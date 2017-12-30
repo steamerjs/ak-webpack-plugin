@@ -43,6 +43,11 @@ plugins: [
                 "url": "//localhost:8000/"
             }
         ],
+        // minimatch 配置，以下是默认的配置
+        "minimatchOpt": {
+            matchBase: true,
+		    dot: true
+        },
         // 下列回调方法，可以直接使用this.fs (fs-extra), this.success, this.info, this.warn, this.alert
         // 在 拷贝文件到 offline 离线文件夹之前
         beforeCopy: function() {
