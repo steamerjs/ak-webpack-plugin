@@ -1,3 +1,6 @@
+## 3.0.0
+	- 支持 webpack 4
+
 ## 2.2.5
 	- 新增 `minimatch` 配置
 	- 给 `beforeZip` 和 `afterZip` 添加回调参数

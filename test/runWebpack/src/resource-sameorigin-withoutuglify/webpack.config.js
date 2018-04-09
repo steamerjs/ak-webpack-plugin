@@ -6,7 +6,7 @@ var webpack = require('webpack'),
 	nodeModulesPath = path.resolve('../node_modules');
 
 var HtmlResWebpackPlugin = require('html-res-webpack-plugin'),
-	ExtractTextPlugin = require("extract-text-webpack-plugin"),
+    MiniCssExtractPlugin = require("mini-css-extract-plugin"),
     AkWebpackPlugin = require('../../../../index');
 
 var webpackConfig = {
@@ -37,17 +37,15 @@ var webpackConfig = {
             },
             {
                 test: /\.css$/,
-                loader: ExtractTextPlugin.extract({
-                    fallback: 'style-loader', 
-                    use: [
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                localIdentName: '[name]-[local]-[hash:base64:5]',
-                            }
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            localIdentName: '[name]-[local]-[hash:base64:5]',
                         }
-                    ]
-                }),
+                    }
+                ]
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
@@ -79,9 +77,12 @@ var webpackConfig = {
     },
     plugins: [
         new webpack.NoEmitOnErrorsPlugin(),
-        new ExtractTextPlugin({filename: "./css/[name].css",
-            // publicPath: "//localhost:1111/",
+        new MiniCssExtractPlugin({
+            filename: "css/[name].css"
         }),
+        // new ExtractTextPlugin({filename: "./css/[name].css",
+        //     // publicPath: "//localhost:1111/",
+        // }),
         new HtmlResWebpackPlugin({
             mode: 'html',
         	filename: "../webserver/entry.html",

@@ -5,7 +5,9 @@ var webpack = require('webpack'),
 	nodeModulesPath = path.resolve('../node_modules');
 
 var HtmlResWebpackPlugin = require('html-res-webpack-plugin'),
-	ExtractTextPlugin = require("extract-text-webpack-plugin"),
+    MiniCssExtractPlugin = require("mini-css-extract-plugin"),
+    UglifyJsPlugin = require("uglifyjs-webpack-plugin"),
+    OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin"),
     AkWebpackPlugin = require('../../../../index');
 
 var webpackConfig = {
@@ -35,17 +37,15 @@ var webpackConfig = {
             },
             {
                 test: /\.css$/,
-                loader: ExtractTextPlugin.extract({
-                    fallback: 'style-loader', 
-                    use: [
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                localIdentName: '[name]-[local]-[hash:base64:5]',
-                            }
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            localIdentName: '[name]-[local]-[hash:base64:5]',
                         }
-                    ]
-                }),
+                    }
+                ]
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
@@ -75,22 +75,30 @@ var webpackConfig = {
         extensions: [".js", ".jsx", ".css", ".scss", ".less", ".styl", ".png", ".jpg", ".jpeg", ".ico", ".ejs", ".pug", ".handlebars", "swf"],
         alias: {}
     },
+    optimization: {
+        minimizer: [
+            new UglifyJsPlugin({
+            cache: true,
+            parallel: true,
+            sourceMap: true // set to true if you want JS source maps
+            }),
+            new OptimizeCSSAssetsPlugin({})
+        ]
+    },
     plugins: [
         new webpack.NoEmitOnErrorsPlugin(),
-        new ExtractTextPlugin({filename: "./css/[name].css",
-            // publicPath: "//localhost:1111/",
+        new MiniCssExtractPlugin({
+            filename: "css/[name].css"
         }),
+        // new ExtractTextPlugin({filename: "./css/[name].css",
+        //     // publicPath: "//localhost:1111/",
+        // }),
         new HtmlResWebpackPlugin({
             mode: 'html',
         	filename: "../webserver/entry.html",
 	        template: config.path.src + "/resource-sameorigin/index.html",
             // cssPublicPath: "//localhost:1111/",
 	        htmlMinify: null
-        }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
         }),
         new AkWebpackPlugin({
             "zipFileName": "test/runWebpack/dist/resource-sameorigin/offline",

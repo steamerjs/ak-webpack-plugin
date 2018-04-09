@@ -12,6 +12,8 @@ const fs = require('fs-extra'),
 	  minimatch = require('minimatch'),
 	  glob = require('glob');
 
+const pluginName = 'AkWebpackPlugin';
+
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'gi'), replacement);
@@ -75,7 +77,7 @@ function AkWebpackPlugin(opts) {
 }
 
 AkWebpackPlugin.prototype.apply = function(compiler) {
-	compiler.plugin("done", () => {
+	compiler.hooks.done.tap(pluginName, () => {
 
 		this.addDestUrl();
 
